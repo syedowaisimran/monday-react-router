@@ -1,0 +1,65 @@
+
+import axios from "axios";
+import { useState } from "react";
+
+function Program() {
+    const [data, setData] = useState([]);
+    let api = "https://jsonplaceholder.typicode.com/posts";
+
+    let getAPIData = () => {
+        axios
+            .get(api)
+            .then((res) => {
+                console.log(res);
+                setData([...res.data]);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        axios
+            .post(api, {
+                body: "Custom Body",
+                title: "ABH",
+                userId: 1,
+            })
+            .then((res) => {
+                console.log("Data send Successfully", res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        axios
+            .put(api + "/1", { body: "Custom Body" })
+            .then((res) => {
+                console.log("Data send Successfully", res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        axios
+            .delete(api + "/2", { body: "Custom Body" })
+            .then((res) => {
+                console.log("Data Deleted Successfully", res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    return (
+        <>
+            <div>
+                <button className="btn btn-primary m-5" onClick={getAPIData} variant="contained">
+                    Get Data
+                </button>
+                {data.map((e, i) => (
+                    <div>
+                        <p>{e.title}</p>
+                    </div>
+                ))}
+            </div>
+        </>
+    );
+}
+
+export default Program;
